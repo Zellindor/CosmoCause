@@ -2,24 +2,20 @@ using UnityEngine;
 
 public class BulletClass : MonoBehaviour
 {
-
-    int bulletSpd;
+    float bulletSpd;
     Vector2 moveDirection;
 
-    public BulletClass()
+    private void Start()
     {
-        bulletSpd = 1;
-        moveDirection.x = Input.mousePosition.x;
-        moveDirection.y = Input.mousePosition.y;
-        
+        bulletSpd = 10f;
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorld.z = 0;
+        moveDirection = (mouseWorld - Vector3.zero).normalized;
+        Destroy(gameObject, 5f);
     }
 
-    public void Update()
+    void Update()
     {
-        Vector2 pos = transform.position;
-        pos += moveDirection * bulletSpd;
-        this.transform.position = pos;
-
+        transform.position += (Vector3)(moveDirection * bulletSpd * Time.deltaTime);
     }
-
 }
